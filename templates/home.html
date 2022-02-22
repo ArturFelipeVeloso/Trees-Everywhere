@@ -1,0 +1,140 @@
+{% extends 'template_base.html' %}
+
+{% block body %}
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Trees Everywhere</h1>
+                <p class="lead text-muted">Plant trees voluntarily around the world.</p>
+                <p>
+                    {% if request.user.is_authenticated %}
+                        <p class="lead text-muted">Hi, {{ request.user.username }}</p>
+                        <a href="{% url 'addPlantedTree' %}" class="btn btn-primary my-2">Add Planted Tree</a>
+                        <a href="{% url 'logout' %}" class="btn btn-secondary my-2">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-primary my-2">Login</a>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </section>
+
+    {% if request.user.is_authenticated %}
+        <div class="album py-5 bg-light">
+            <div class="container">
+
+                <div class="row col-lg-12">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                              My Planted Tress
+                            </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                <br>
+                                <div class="accordion-body">
+                                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                                        {% if my_planted_trees %}
+                                            {% for tree in my_planted_trees %}
+                                                    <div class="col-lg-6">
+                                                        <div class="card shadow-sm">
+                                                            <iframe  width="100%" height="225" src = "https://maps.google.com/maps?q={{ tree.location_lat }},{{tree.location_long}}&zoom=16&maptype=roadmap&ie=UTF8&iwloc=&output=embed"></iframe>
+                                        
+                                                            <div class="card-body">
+                                                                <p class="card-text">{{ tree.tree }}</p>
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <div class="btn-group">
+                                                                        <a href="{% url 'viewPlantedTree' tree.id %}" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+                                                                        <a href="{% url 'editPlantedTree' tree.id %}" type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                                                    </div>
+                                                                    <small class="text-muted">{{ tree.planted_at }}</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            {% endfor %}
+                                            <br>
+                                        {% else %}
+                                        Nothing
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="accordion-item">
+                          <h2 class="accordion-header" id="flush-headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                              All of my Accounts
+                            </button>
+                          </h2>
+                          <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                            <br>
+                                <div class="accordion-body">
+                                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                                        {% if all_planted_trees_my_accounts %}
+                                            {% for tree_list in all_planted_trees_my_accounts %}
+                                                {% for tree in tree_list %}
+                                                        <div class="col-lg-6">
+                                                            <div class="card shadow-sm">
+                                                                <iframe  width="100%" height="225" src = "https://maps.google.com/maps?q={{ tree.location_lat }},{{tree.location_long}}&zoom=16&maptype=roadmap&ie=UTF8&iwloc=&output=embed"></iframe>
+                                            
+                                                                <div class="card-body">
+                                                                    <p class="card-text">{{ tree.tree }} - By {{ tree.user }}</p>
+                                                                    <div class="d-flex justify-content-between align-items-center">
+                                                                        <div class="btn-group">
+                                                                            <a href="{% url 'viewPlantedTree' tree.id %}" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+                                                                        </div>
+                                                                        <small class="text-muted">{{ tree.planted_at }}</small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                {% endfor %}
+                                            {% endfor %}
+                                                </div>
+                                            <br>
+                                        {% else %}
+                                        Nothing
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <!-- List Model -->
+                <!--
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    {% if my_planted_trees %}
+                        {% for tree in my_planted_trees %}
+                                <div class="col">
+                                    <div class="card shadow-sm">
+                                        <iframe  width="100%" height="225" src = "https://maps.google.com/maps?q={{ tree.location_lat }},{{tree.location_long}}&zoom=16&maptype=roadmap&ie=UTF8&iwloc=&output=embed"></iframe>
+                    
+                                        <div class="card-body">
+                                            <p class="card-text">{{ tree.tree }}</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="btn-group">
+                                                    <a href="{% url 'viewPlantedTree' tree.id %}" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+                                                    <a href="{% url 'editPlantedTree' tree.id %}" type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                                </div>
+                                                <small class="text-muted">{{ tree.planted_at }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                -->
+            </div>
+        </div>
+    {% endif %}
+
+
+
+{% endblock %}

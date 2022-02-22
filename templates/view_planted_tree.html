@@ -1,0 +1,63 @@
+{% extends 'template_base.html' %}
+
+{% block body %}
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Trees Everywhere</h1>
+                <p class="lead text-muted">Plant trees voluntarily around the world.</p>
+                <p>
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <div class="album py-5 bg-light">
+        <div class="container">
+            
+            <!-- Content Column -->
+            <div class="row g-5">
+                <div class="col-md-8">
+                    <article class="blog-post">
+                        <h2 class="blog-post-title">{{ platend_trees.scientific_name }}</h2>    
+                        
+                        <iframe  width="100%" height="400" src = "https://maps.google.com/maps?q={{ platend_trees.location_lat }},{{platend_trees.location_long}}&zoom=16&maptype=roadmap&ie=UTF8&iwloc=&output=embed"></iframe>
+                        <br>
+                        <br>
+                        
+                        <h2>{{ platend_trees.tree }}</h2>
+                        <p>{{ platend_trees.tree.scientific_name }}</p>
+                        <blockquote class="blockquote">
+                            <p>{{ platend_trees.age }} anos</p>
+                        </blockquote>
+                        
+                        <h3>About</h3>
+                        <p>{{ platend_trees.about }}</p>
+                        
+                        </article>
+
+                    <nav class="blog-pagination" aria-label="Pagination">
+                        <a href="{% url 'home' %}" class="btn btn-secondary my-2">Voltar</a>
+                    </nav>
+                </div>
+            
+                <!-- Detail Column -->
+                <div class="col-md-4">
+                    <div class="position-sticky" style="top: 2rem;">
+                        
+                        <div class="p-4 mb-3 bg-light rounded">
+                            <h4 class="fst-italic">Platend by</h4>
+                            <p class="mb-0">{{ platend_trees.user }}</p>
+                        </div>
+                        
+                        <div class="p-4 mb-3 bg-light rounded">
+                            <h4 class="fst-italic">Planted at</h4>
+                            <p class="mb-0">{{ platend_trees.planted_at }}</p>
+                        </div>
+                        
+                    </div>
+                </div>
+        </div>
+    </div>
+    
+    {% endblock %}
