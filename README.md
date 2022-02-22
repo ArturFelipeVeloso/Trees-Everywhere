@@ -1,39 +1,54 @@
-Trees Everywhere
-Artur Felipe da Silva Veloso
-(86) 9 9927-2370
-arturfdasveloso@gmail.com
+# Trees Everywhere
+#### Artur Felipe da Silva Veloso
+##### (86) 9 9927-2370
+##### arturfdasveloso@gmail.com
 
-Requisitos
-Python 3
-Pip 3
+## Requisitos
+##### - Python 3 - [Baixar](https://www.python.org/downloads/)
+##### - Pip 3
 
-Instalação da máquina virtual
+## Instalação da máquina virtual
+```sh
 virtualenv MV_TreesEverywhere
+```
 
-Instalação dos módulos
+## Instalação dos módulos
+```sh
 pip install -r requirements.txt
+```
 
-Migração das tabelas
+## Migração das tabelas
+```sh
 python manage.py migrate
+```
 
-Criação do super usuário
+## Criação do super usuário
+```sh
 python manage.py createsuperuser
+```
 
-Sobir o servidor para testar
+## Subir o servidor para testar
+```sh
 python manage.py runserver
+```
 
-Acessar o site
-http://127.0.0.1:8000/
+## Acessos
 
-Acessar ao admin
-http://127.0.0.1:8000/admin/
 
-Acessar a API
-http://127.0.0.1:8000/api/
+|  |  |
+| ------ | ------ |
+| Site | http://127.0.0.1:8000/|
+| Admin | http://127.0.0.1:8000/admin|
+| API | http://127.0.0.1:8000/api|
+| Requisição a API | http://127.0.0.1:8000/api/treelist/api/plantedtree/ |
 
-Requisição a API
-http://127.0.0.1:8000/api/treelist/api/plantedtree/
+## Header
 
+```sh
 Headers
 Key=Authorization
-Value=token (token gerado no django admin)
+Value=token
+```
+
+> Obs: Substituir token em `Value` pelo `token gerado no django admin`
+
