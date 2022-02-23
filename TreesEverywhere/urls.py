@@ -28,7 +28,7 @@ urlpatterns = [
     
     # API URL
     path('api-token-auth/', obtain_auth_token),
-    path('api/treelist/', include('apps.Trees.urls')),
+    
     
     # login URL
     path(

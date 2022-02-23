@@ -22,5 +22,6 @@ urlpatterns = [
     path('addplantedtree/', addPlantedTree, name="addPlantedTree"),
 
     # API URL
-    path('api/', include(route.urls), name="api-trees"),
+    path('api/treelist/', include(route.urls), name="api-trees"),
+    
 ]

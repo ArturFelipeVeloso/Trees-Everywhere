@@ -22,13 +22,9 @@
                                 <br>
                                 {{ form.about|bootstrap }}
                                 <br>
-                                
-                                <div class="form-group">
-                                    <label class="control-label" for="id_about">Localizations ex: (Lat, long) or (Lat, long), (Lat, long)</label>
-                                    <div class=" ">
-                                        <textarea name="name_lat_long" cols="40" rows="10" class=" form-control" id="lat_long"></textarea>
-                                    </div>
-                                </div>
+                                {{ form.location_lat|bootstrap }}
+                                <br>
+                                {{ form.location_long|bootstrap }}
                                 <br>
 
                                 <div class="form-group">

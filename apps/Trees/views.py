@@ -14,6 +14,19 @@ from .forms import PlantedTreesForm
 # Verify login on template
 from django.contrib.auth.decorators import login_required
 
+# AST import
+import ast
+
+# Convert str to tuple function
+def parse_tuple(string):
+    try:
+        s = ast.literal_eval(str(string))
+        if type(s) == tuple:
+            return s
+        return
+    except:
+        return
+
 # Home View
 def home(request):
     if request.user.is_authenticated:
@@ -65,16 +78,36 @@ def addPlantedTree(request):
     if request.method=='POST':
         form = PlantedTreesForm(request.POST)
         if form.is_valid():
-            try:  
+            #try:
+                
+            locations = request.POST.get('name_lat_long')
+            locations = parse_tuple(locations)
+            
+            if type(locations[0]) is tuple:
+                for location in locations:
+                    tree = Plant.objects.get(id=int(request.POST.get('tree')))
+                    PlantedTrees.objects.create(
+                        user = request.user,
+                        age = int(request.POST.get('age')),
+                        tree = tree,
+                        about = request.POST.get('about'),
+                        location_lat = location[0],
+                        location_long = location[1],
+                        planted_at = datetime.now()
+                    )
+            elif locations:
                 instance = form.save(commit=False)
-                #locations = self.kwargs['locations']
-                
                 instance.user = request.user
+                instance.location_lat = locations[0]
+                instance.location_long = locations[1]
                 instance.planted_at = datetime.now()
-                
+                print(instance)
                 instance.save()
-            except:  
-                print("Error to save") 
+            else:
+                print("Error in location field")
+                    
+            #except:  
+                #print("Error in save") 
         else:
             print("Error in form")
         
@@ -100,7 +133,7 @@ def editPlantedTree(request, planted_tree_id):
             form = PlantedTreesForm(request.POST, instance = planted_trees)
             if form.is_valid():
                 try:  
-                    form.save()  
+                    form.save()
                 except:  
                     print("Error to save") 
             else:
@@ -115,7 +148,7 @@ def editPlantedTree(request, planted_tree_id):
                 "form": form
             }
             
-            return render(request, "form_planted_tree.html", data)
+            return render(request, "form_edit_planted_tree.html", data)
     else:
         return redirect('home')
     
